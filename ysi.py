@@ -14,7 +14,7 @@ def extract_ticker_from_url(url: str) -> str:
         st.stop()
     return match.group(1).upper()
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=86400)
 def fetch_and_clean_history(ticker: str) -> pd.DataFrame:
     df = yf.Ticker(ticker).history(period="max", interval="1d")
     if "Adj Close" not in df.columns:
