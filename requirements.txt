@@ -3,4 +3,3 @@ pandas
 yfinance
 xlsxwriter
 time
-re
