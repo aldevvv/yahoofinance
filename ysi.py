@@ -50,9 +50,9 @@ st.markdown(
     """
     ### ⚠️ Catatan Penting
     - Pastikan URL Yang Anda Masukkan Mengikuti Format Yang Benar
-      `Contoh : https://finance.yahoo.com/quote/TSLA/history/`
+      `https://finance.yahoo.com/quote/TSLA/history/`
     - Hindari Melakukan Scraping Data Terlalu Sering Dalam Waktu Singkat Untuk Menghindari Limit ( Maklum Karena Deploy Secara Gratis :p )
-    - Jalankan Program Ini Pada LocalHost Anda Jika Terjadi Limit - Silahkan Kunjungi ( https://github.com/aldevvv/yahoofinance )
+    - Jalankan Program Ini Pada LocalHost Anda Jika Terjadi Limit - Silahkan Kunjungi Repository Dibawah https://github.com/aldevvv/yahoofinance 
     """
 )
 
