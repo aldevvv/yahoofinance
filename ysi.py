@@ -12,8 +12,17 @@ def extract_ticker_from_url(url: str) -> str:
         st.stop()
     return match.group(1).upper()
 
+@st.cache_data(ttl=3600) 
 def fetch_and_clean_history(ticker: str) -> pd.DataFrame:
-    df = yf.Ticker(ticker).history(period="max", interval="1d")
+    try:
+        df = yf.Ticker(ticker).history(period="max", interval="1d")
+    except YFRateLimitError:
+        st.error("❌ Anda telah mencapai batas akses Yahoo Finance. Harap tunggu beberapa menit dan silahkan coba lagi.")
+        st.stop()
+    except Exception as e:
+        st.error(f"❌ Gagal Mengambil Data : {e}")
+        st.stop()
+
     if "Adj Close" not in df.columns:
         df["Adj Close"] = df["Close"]
     if "Open" not in df.columns:
@@ -45,13 +54,13 @@ st.set_page_config(page_title="Yahoo Finance Historical Data - YSI")
 st.title("📈 Yahoo Finance Historical Data Downloader")
 st.markdown(
     """
-    ### Catatan Penting:
+    ### ⚠️ Catatan Penting
     - Pastikan URL yang Anda masukkan mengikuti format yang benar. Contoh URL yang valid adalah:
     `https://finance.yahoo.com/quote/TSLA/history/` 
     - Hanya URL yang sesuai dengan format yang benar yang dapat diproses oleh alat ini.
     - Data yang diunduh berisi informasi historical data yang dapat digunakan untuk analisis lebih lanjut.
     - Alat ini sepenuhnya gratis digunakan dan tidak memerlukan langganan atau akun premium di Yahoo Finance.
-    - Tidak Harus Lagi Menggunakan Metode Inspect Element & Cleaning Data Dari Awal Hehehe
+    - Jika Anda mengakses terlalu sering dalam waktu singkat, data mungkin akan gagal diambil (rate limit).
     """
 )
 
