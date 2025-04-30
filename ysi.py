@@ -49,11 +49,11 @@ st.title("📈 Yahoo Finance Historical Data Downloader")
 st.markdown(
     """
     ### ⚠️ Catatan Penting
-    - Pastikan URL yang Anda masukkan mengikuti format yang benar. Contoh URL yang valid:
+    - Pastikan URL yang Anda masukkan mengikuti format yang benar. Contoh URL yang valid :
       `https://finance.yahoo.com/quote/TSLA/history/`
-    - Data yang diunduh berisi informasi historical data yang dapat digunakan untuk analisis lebih lanjut.
-    - Alat ini sepenuhnya gratis digunakan dan tidak memerlukan langganan atau akun premium di Yahoo Finance.
-    - Jika Anda mengakses terlalu sering dalam waktu singkat, data mungkin akan gagal diambil (rate limit).
+    - Data yang diunduh berisi informasi Historical Data yang dapat digunakan untuk analisis lebih lanjut (Machine Learning, Finance dll)
+    - Alat ini sepenuhnya gratis digunakan dan tidak memerlukan langganan atau akun premium di Yahoo Finance
+    - Jika Anda mengakses terlalu sering dalam waktu singkat, data mungkin akan gagal diambil (Rate Limit)
     """
 )
 
@@ -73,7 +73,7 @@ if url:
     ticker = extract_ticker_from_url(url)
     st.success(f"✅ Berhasil mendeteksi kode perusahaan/saham: {ticker}")
     try:
-        with st.spinner("⏳ Sedang menjalankan program untuk mengambil data..."):
+        with st.spinner("⏳ Sedang Menjalankan Program Untuk Mengambil Data..."):
             df = fetch_and_clean_history(ticker)
     except YFRateLimitError:
         if 'limit_reset' not in st.session_state:
@@ -87,7 +87,7 @@ if url:
         st.error(f"❌ Terjadi kesalahan saat mengambil data: {e}")
         st.stop()
 
-    st.markdown("**🗂️ Preview 5 Baris Terakhir dari Data Historis yang Diambil (dari data terlama ke terbaru):**")
+    st.markdown("**🗂️ Preview 5 Baris Pertama Historical Data ( Oldest to Newest )**")
     st.dataframe(df.head())
 
     st.write(f"📊 Jumlah Baris Data History (Max): {len(df)}")
@@ -102,7 +102,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; font-size: 14px;'>
-        © 2025 | Developed with ❤️ oleh AlDev - Muhammad Alif<br>
+        © 2025 | Developed with ❤️ by AlDev - Muhammad Alif<br>
         Jika menemukan bug atau ingin memberikan saran, hubungi saya dibawah<br>
         <a href='https://www.instagram.com/mhdalif.id/' target='_blank'>https://instagram.com/mhdalif.id</a>
     </div>
