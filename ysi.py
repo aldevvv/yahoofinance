@@ -76,10 +76,9 @@ if url:
         with st.spinner("⏳ Sedang menjalankan program untuk mengambil data..."):
             df = fetch_and_clean_history(ticker)
     except YFRateLimitError:
-        st.session_state['limit_reset'] = time.time() + 3600
-        st.error(
-            "❌ Anda telah mencapai batas penggunaan Program Scraping Historical Data Yahoo Finance (Rate Limit)"
-        )
+        if 'limit_reset' not in st.session_state:
+            st.session_state['limit_reset'] = time.time() + 3600
+        st.error("❌ Anda telah mencapai batas penggunaan Program Scraping Yahoo Finance Historical Data (Rate Limit)")
         remaining = st.session_state['limit_reset'] - time.time()
         mins, secs = divmod(int(remaining), 60)
         st.info(f"⏳ Silahkan coba lagi dalam : {mins}m {secs}s")
@@ -96,25 +95,16 @@ if url:
     csv = df.to_csv(index=False).encode('utf-8')
     xlsx = convert_df_to_excel(df, ticker)
 
-    st.download_button(
-        "⬇️ Download CSV",
-        csv,
-        file_name=f"{ticker}_CleanedHistoricalData.csv",
-        mime='text/csv'
-    )
-    st.download_button(
-        "⬇️ Download Excel",
-        xlsx,
-        file_name=f"{ticker}_CleanedHistoricalData.xlsx",
-        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    )
+    st.download_button("⬇️ Download CSV", csv, file_name=f"{ticker}_CleanedHistoricalData.csv", mime='text/csv')
+    st.download_button("⬇️ Download Excel", xlsx, file_name=f"{ticker}_CleanedHistoricalData.xlsx", mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; font-size: 14px;'>
         © 2025 | Developed dengan ❤️ oleh AlDev - Muhammad Alif<br>
-        Jika menemukan bug atau ingin memberikan saran, hubungi saya di <a href='https://www.instagram.com/mhdalif.id/' target='_blank'>@mhdalif.id</a>
+        Jika menemukan bug atau ingin memberikan saran, hubungi saya dibawah
+        <a href='https://www.instagram.com/mhdalif.id/' target='_blank'>https://instagram.com/mhdalif.id</a>
     </div>
     """,
     unsafe_allow_html=True
