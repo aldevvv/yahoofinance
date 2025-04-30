@@ -16,7 +16,25 @@ Dengan UI yang telah disesuaikan berbasis Streamlit, pengguna hanya perlu menemp
 - Proyek ini mempermudah pemrosesan data saham untuk keperluan analisis teknikal, machine learning, atau laporan keuangan.
 
 ---
+### ✨ User Interface Preview
 
+Berikut adalah cuplikan tampilan antarmuka dari program **Yahoo Finance Historical Data Downloader (YSI)**:
+
+- Pengguna dapat memasukkan URL data historis dari Yahoo Finance, misalnya:  
+  `https://finance.yahoo.com/quote/TSLA/history/`
+- Program akan otomatis mengenali kode saham dan menampilkan notifikasi keberhasilan.
+- Setelah data berhasil diambil, pengguna dapat melihat **preview data historis** (5 baris pertama), termasuk kolom seperti:  
+  `Tanggal`, `Open`, `High`, `Low`, `Close`, `Adj Close`, dan `Volume`.
+- Total jumlah baris data juga ditampilkan.
+- Pengguna kemudian dapat mengunduh data tersebut dalam format **CSV** atau **Excel** yang sudah dibersihkan secara langsung dengan satu klik.
+- Terdapat catatan penting dan informasi pengembang di bagian bawah aplikasi.
+- Tampilan ini dirancang agar **intuitif, ringan, dan mudah digunakan** bahkan oleh pengguna non-teknis.
+
+<p align="center">
+  <img src="https://res.cloudinary.com/dlf3r1kut/image/upload/v1745999999/Preview_YSI_qre7du.png" alt="Contoh Penggunaan YSI" />
+</p>
+
+---
 ## 🛠️ Library & Teknologi yang Digunakan
 
 | Komponen          | Teknologi                         | Fungsi                                 |
