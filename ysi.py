@@ -78,11 +78,11 @@ if url:
     except YFRateLimitError:
         st.session_state['limit_reset'] = time.time() + 3600
         st.error(
-            "❌ Anda telah mencapai batas akses Yahoo Finance (Rate Limit). Harap tunggu beberapa menit dan coba lagi."
+            "❌ Anda telah mencapai batas penggunaan Program Scraping Historical Data Yahoo Finance (Rate Limit)"
         )
         remaining = st.session_state['limit_reset'] - time.time()
         mins, secs = divmod(int(remaining), 60)
-        st.info(f"⏳ Sisa waktu hingga bisa mencoba lagi: {mins}m {secs}s")
+        st.info(f"⏳ Silahkan coba lagi dalam : {mins}m {secs}s")
         st.stop()
     except Exception as e:
         st.error(f"❌ Terjadi kesalahan saat mengambil data: {e}")
