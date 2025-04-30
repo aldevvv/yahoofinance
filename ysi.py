@@ -102,8 +102,8 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; font-size: 14px;'>
-        © 2025 | Developed dengan ❤️ oleh AlDev - Muhammad Alif<br>
-        Jika menemukan bug atau ingin memberikan saran, hubungi saya dibawah
+        © 2025 | Developed with ❤️ oleh AlDev - Muhammad Alif<br>
+        Jika menemukan bug atau ingin memberikan saran, hubungi saya dibawah<br>
         <a href='https://www.instagram.com/mhdalif.id/' target='_blank'>https://instagram.com/mhdalif.id</a>
     </div>
     """,
