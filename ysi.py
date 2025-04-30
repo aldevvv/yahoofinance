@@ -27,6 +27,7 @@ def fetch_and_clean_history(ticker: str) -> pd.DataFrame:
         df["Date"] = pd.to_datetime(df["Date"]).dt.tz_localize(None)
     df = df[["Date", "Open", "High", "Low", "Close", "Adj Close", "Volume"]]
     return df
+
 def convert_df_to_excel(df: pd.DataFrame, ticker: str):
     from io import BytesIO
     output = BytesIO()
@@ -42,6 +43,7 @@ def convert_df_to_excel(df: pd.DataFrame, ticker: str):
         worksheet.set_column('G:G', 15, vol_fmt)
     output.seek(0)
     return output
+
 st.set_page_config(page_title="Yahoo Finance Historical Data - YSI")
 st.title("📈 Yahoo Finance Historical Data Downloader")
 st.markdown(
@@ -75,7 +77,12 @@ if url:
             df = fetch_and_clean_history(ticker)
     except YFRateLimitError:
         st.session_state['limit_reset'] = time.time() + 3600
-        st.error("❌ Anda telah mencapai batas akses Yahoo Finance (Rate Limit). Harap tunggu beberapa menit dan coba lagi.")
+        st.error(
+            "❌ Anda telah mencapai batas akses Yahoo Finance (Rate Limit). Harap tunggu beberapa menit dan coba lagi."
+        )
+        remaining = st.session_state['limit_reset'] - time.time()
+        mins, secs = divmod(int(remaining), 60)
+        st.info(f"⏳ Sisa waktu hingga bisa mencoba lagi: {mins}m {secs}s")
         st.stop()
     except Exception as e:
         st.error(f"❌ Terjadi kesalahan saat mengambil data: {e}")
