@@ -75,7 +75,7 @@ pip install -r requirements.txt
 ### 4. Jalankan Program di LocalHost
 
 ```bash
-streamlit run ysi.py
+python -m streamlit run ysi.py
 ```
 
 Aplikasi akan otomatis terbuka di browser pada `http://localhost:8501`
