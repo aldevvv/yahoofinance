@@ -52,7 +52,7 @@ st.markdown(
     - Pastikan URL Yang Anda Masukkan Mengikuti Format Yang Benar
       `https://finance.yahoo.com/quote/TSLA/history/`
     - Hindari Melakukan Scraping Data Terlalu Sering Dalam Waktu Singkat Untuk Menghindari Limit ( Maklum Karena Deploy Secara Gratis :p )
-    - Jalankan Program Ini Pada LocalHost Anda Jika Terjadi Limit - Silahkan Kunjungi Repository Dibawah https://github.com/aldevvv/yahoofinance 
+    - Jika Terjadi Error/Limit Silahkan Kunjungi Repository Dibawah Untuk Guide Setup di LocalHost https://github.com/aldevvv/yahoofinance 
     """
 )
 
@@ -102,7 +102,7 @@ st.markdown(
     """
     <div style='text-align: center; font-size: 14px;'>
         © 2025 | Developed with ❤️ by AlDev - Muhammad Alif<br>
-        Jika menemukan bug atau ingin memberikan saran, hubungi saya dibawah<br>
+        Found a bug to report or a suggestion for improvement? Please share your feedback using the link below.<br>
         <a href='https://www.instagram.com/mhdalif.id/' target='_blank'>https://instagram.com/mhdalif.id</a>
     </div>
     """,
