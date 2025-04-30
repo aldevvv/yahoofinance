@@ -1,8 +1,9 @@
 import re
 import yfinance as yf
 import pandas as pd
-from urllib.parse import urlparse
 import streamlit as st
+from urllib.parse import urlparse
+from yfinance.exceptions import YFRateLimitError
 
 def extract_ticker_from_url(url: str) -> str:
     path = urlparse(url).path
