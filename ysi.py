@@ -1,6 +1,7 @@
 import re
 import yfinance as yf
 import pandas as pd
+import time
 from urllib.parse import urlparse
 from yfinance.exceptions import YFRateLimitError
 import streamlit as st
@@ -13,7 +14,7 @@ def extract_ticker_from_url(url: str) -> str:
         st.stop()
     return match.group(1).upper()
 
-@st.cache_data(ttl=3600)
+t@st.cache_data(ttl=3600)
 def fetch_and_clean_history(ticker: str) -> pd.DataFrame:
     df = yf.Ticker(ticker).history(period="max", interval="1d")
     if "Adj Close" not in df.columns:
@@ -30,7 +31,7 @@ def fetch_and_clean_history(ticker: str) -> pd.DataFrame:
 def convert_df_to_excel(df: pd.DataFrame, ticker: str):
     from io import BytesIO
     output = BytesIO()
-    with pd.ExcelWriter(output, engine="xlsxwriter", date_format='yyyy-mm-dd', datetime_format='yyyy-mm-dd') as writer:
+    with pd.ExcelWriter(output, engine='xlsxwriter', date_format='yyyy-mm-dd', datetime_format='yyyy-mm-dd') as writer:
         df.to_excel(writer, index=False, sheet_name='Data')
         workbook = writer.book
         worksheet = writer.sheets['Data']
@@ -42,14 +43,12 @@ def convert_df_to_excel(df: pd.DataFrame, ticker: str):
         worksheet.set_column('G:G', 15, vol_fmt)
     output.seek(0)
     return output
-
-st.set_page_config(page_title="Yahoo Finance Historical Data - YSI")
 st.title("📈 Yahoo Finance Historical Data Downloader")
 st.markdown(
     """
     ### ⚠️ Catatan Penting
     - Pastikan URL yang Anda masukkan mengikuti format yang benar. Contoh URL yang valid:
-      `https://finance.yahoo.com/quote/TSLA/history/` - Hanya URL yang sesuai dengan format yang benar yang dapat diproses oleh alat ini.
+      `https://finance.yahoo.com/quote/TSLA/history/`
     - Data yang diunduh berisi informasi historical data yang dapat digunakan untuk analisis lebih lanjut.
     - Alat ini sepenuhnya gratis digunakan dan tidak memerlukan langganan atau akun premium di Yahoo Finance.
     - Jika Anda mengakses terlalu sering dalam waktu singkat, data mungkin akan gagal diambil (rate limit).
@@ -62,14 +61,22 @@ url = st.text_input(
 )
 
 if url:
+    reset = st.session_state.get('limit_reset', 0)
+    remaining = reset - time.time()
+    if remaining > 0:
+        mins, secs = divmod(int(remaining), 60)
+        st.warning(f"⚠️ Rate limit masih aktif. Coba lagi dalam {mins}m {secs}s")
+        st.stop()
+
     ticker = extract_ticker_from_url(url)
     st.success(f"✅ Berhasil mendeteksi kode perusahaan/saham: {ticker}")
 
-    # Run with spinner and handle errors
     try:
         with st.spinner("⏳ Sedang menjalankan program untuk mengambil data..."):
             df = fetch_and_clean_history(ticker)
     except YFRateLimitError:
+        # Set waktu tunggu 1 jam
+        st.session_state['limit_reset'] = time.time() + 3600
         st.error("❌ Anda telah mencapai batas akses Yahoo Finance (Rate Limit). Harap tunggu beberapa menit dan coba lagi.")
         st.stop()
     except Exception as e:
