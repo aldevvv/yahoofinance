@@ -45,15 +45,14 @@ def convert_df_to_excel(df: pd.DataFrame, ticker: str):
     return output
 
 st.set_page_config(page_title="Yahoo Finance Historical Data - YSI")
-st.title("📈 Yahoo Finance Historical Data Downloader")
+st.title("📈 Yahoo Finance Historical Data Downloader - Version 1.0")
 st.markdown(
     """
     ### ⚠️ Catatan Penting
-    - Pastikan URL yang Anda masukkan mengikuti format yang benar. Contoh URL yang valid :
-      `https://finance.yahoo.com/quote/TSLA/history/`
-    - Data yang diunduh berisi informasi Historical Data yang dapat digunakan untuk analisis lebih lanjut (Machine Learning, Finance dll)
-    - Alat ini sepenuhnya gratis digunakan dan tidak memerlukan langganan atau akun premium di Yahoo Finance
-    - Jika Anda mengakses terlalu sering dalam waktu singkat, data mungkin akan gagal diambil (Rate Limit)
+    - Pastikan URL Yang Anda Masukkan Mengikuti Format Yang Benar
+      `Contoh : https://finance.yahoo.com/quote/TSLA/history/`
+    - Hindari Melakukan Scraping Data Terlalu Sering Dalam Waktu Singkat Untuk Menghindari Limit ( Maklum Karena Deploy Secara Gratis :p )
+    - Jalankan Program Ini Pada LocalHost Anda Jika Terjadi Limit - Silahkan Kunjungi ( https://github.com/aldevvv/yahoofinance )
     """
 )
 
@@ -67,30 +66,30 @@ if url:
     remaining = reset_time - time.time()
     if remaining > 0:
         mins, secs = divmod(int(remaining), 60)
-        st.warning(f"⚠️ Rate limit masih aktif. Coba lagi dalam {mins}m {secs}s")
+        st.warning(f"⚠️ Rate Limit Masih Aktif - {mins}m {secs}s")
         st.stop()
 
     ticker = extract_ticker_from_url(url)
-    st.success(f"✅ Berhasil mendeteksi kode perusahaan/saham: {ticker}")
+    st.success(f"✅ Berhasil Mendeteksi Kode Perusahaan/Saham : {ticker}")
     try:
         with st.spinner("⏳ Sedang Menjalankan Program Untuk Mengambil Data..."):
             df = fetch_and_clean_history(ticker)
     except YFRateLimitError:
         if 'limit_reset' not in st.session_state:
             st.session_state['limit_reset'] = time.time() + 3600
-        st.error("❌ Anda telah mencapai batas penggunaan Program Scraping Yahoo Finance Historical Data (Rate Limit)")
+        st.error("❌ Anda Telah Mencapai Batas Penggunaan Program Scraping Yahoo Finance Historical Data (Rate Limit)")
         remaining = st.session_state['limit_reset'] - time.time()
         mins, secs = divmod(int(remaining), 60)
-        st.info(f"⏳ Silahkan coba lagi dalam : {mins}m {secs}s")
+        st.info(f"⏳ Silahkan Coba Lagi Dalam : {mins}m {secs}s")
         st.stop()
     except Exception as e:
-        st.error(f"❌ Terjadi kesalahan saat mengambil data: {e}")
+        st.error(f"❌ Terjadi Kesalahan Saat Mengambil Data : {e}")
         st.stop()
 
     st.markdown("**🗂️ Preview 5 Baris Pertama Historical Data ( Oldest to Newest )**")
     st.dataframe(df.head())
 
-    st.write(f"📊 Jumlah Baris Data History (Max): {len(df)}")
+    st.write(f"📊 Jumlah Data (Max) : {len(df)}")
 
     csv = df.to_csv(index=False).encode('utf-8')
     xlsx = convert_df_to_excel(df, ticker)
