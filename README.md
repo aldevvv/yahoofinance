@@ -15,6 +15,8 @@ Dengan UI yang telah disesuaikan berbasis Streamlit, pengguna hanya perlu menemp
 - Banyak pengguna membutuhkan data bersih tanpa elemen seperti dividen dan stock split serta kolom yang rapih.
 - Proyek ini mempermudah pemrosesan data saham untuk keperluan analisis teknikal, machine learning, atau laporan keuangan.
 
+Live Preview : https://yahoofinance.up.railway.app/
+
 ---
 ### ✨ User Interface Preview
 
